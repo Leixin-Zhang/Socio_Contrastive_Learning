@@ -14,27 +14,27 @@ class Contrastive_Loss(nn.Module):
     def forward(self, embeddings, labels, text_ids):
         batch_size = embeddings.size(0)
 
-        # 计算相似度矩阵
+        # similarity matrix of the pressed socio-demo embeddings (for later usage as a weight)
         similarity_matrix = torch.matmul(embeddings, embeddings.T) / self.temperature
 
-        # 创建text_id相同的mask
+        # mask matrix: 1 for same comment_ids, 0 for different comment_ids
         text_same_mask = (text_ids.unsqueeze(1) == text_ids.unsqueeze(0)).float()
 
-        # 正样本mask：相同text_id且相同标签（排除自身）
+        # postive case: 1 for same targets, 0 for different targets
         pos_mask = text_same_mask * (labels.unsqueeze(1) == labels.unsqueeze(0)).float()
         pos_mask = pos_mask * (1 - torch.eye(batch_size, device=embeddings.device))
 
-        # 正样本损失
+        # loss for postive examples (same comment, same target): penalize if socio-embedding not similarity enouth  
         pos_loss = -torch.sum(F.log_softmax(similarity_matrix, dim=1) * pos_mask) / max(torch.sum(pos_mask), 1)
 
-        # 惩罚项：相同text_id但不同标签
+        # loss for negtive examples(same comment, but different target):
+        # penalize these places weighted with the similarity of two socio-embeddings
         penalty_mask = text_same_mask * (1 - (labels.unsqueeze(1) == labels.unsqueeze(0)).float())
         penalty_mask = penalty_mask * (1 - torch.eye(batch_size, device=embeddings.device))
         penalty_loss = torch.sum(F.softmax(similarity_matrix, dim=1) * penalty_mask) / max(torch.sum(penalty_mask), 1)
 
-        # return pos_loss + self.penalty_weight * penalty_loss
+        return pos_loss + self.penalty_weight * penalty_loss
 
-        return self.penalty_weight * penalty_loss
 
 class Contrasive_Combined_Loss(nn.Module):
     def __init__(self, bce_weight=1.0, contrastive_weight=1, temperature=0.07, penalty_weight=1.0):
@@ -73,3 +73,4 @@ class MaskedBCELoss(nn.Module):
             return masked_loss.sum() / valid_losses
         else:
             return masked_loss.sum() * 0
+
