@@ -17,10 +17,10 @@ class Contrastive_Loss(nn.Module):
         # similarity matrix of the pressed socio-demo embeddings (for later usage as a weight)
         similarity_matrix = torch.matmul(embeddings, embeddings.T) / self.temperature
 
-        # mask matrix: 1 for same comment_ids, 0 for different comment_ids
+        # text_id mask matrix: contrastive loss only applies for same text
         text_same_mask = (text_ids.unsqueeze(1) == text_ids.unsqueeze(0)).float()
 
-        # postive case: 1 for same targets, 0 for different targets
+        # postive case: 1 for same labels, 0 for different labels
         pos_mask = text_same_mask * (labels.unsqueeze(1) == labels.unsqueeze(0)).float()
         pos_mask = pos_mask * (1 - torch.eye(batch_size, device=embeddings.device))
 
@@ -73,4 +73,5 @@ class MaskedBCELoss(nn.Module):
             return masked_loss.sum() / valid_losses
         else:
             return masked_loss.sum() * 0
+
 
