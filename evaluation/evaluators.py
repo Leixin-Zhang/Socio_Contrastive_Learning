@@ -1,155 +1,161 @@
 import torch
-import numpy as np
-from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score, confusion_matrix, classification_report
-from sklearn.metrics import precision_recall_fscore_support
-
-import torch
-
-# def socio_feature_evaluator(model, test_loader, device='cpu'):
-
-#     model.eval()
-#     model.to(device)
-
-#     all_predictions = []
-#     all_labels = []
-
-#     with torch.no_grad():
-#         for social, text, labels in test_loader:
-
-#             social = social.to(device)
-#             text = text.to(device)
-#             labels = labels.to(device)
-
-#             logits, _ = model(social, text)
-
-#             probabilities = torch.sigmoid(logits)
-#             predictions = (probabilities > 0.5).float()
-
-#             all_predictions.extend(predictions.cpu().numpy())
-#             all_labels.extend(labels.cpu().numpy())
-
-#     all_predictions = np.array(all_predictions)
-#     all_labels = np.array(all_labels)
-
-#     precision = precision_score(all_labels, all_predictions, zero_division=0)
-#     recall = recall_score(all_labels, all_predictions, zero_division=0)
-#     f1 = f1_score(all_labels, all_predictions, zero_division=0)
-
-#     metrics = {
-#         'precision': precision,
-#         'recall': recall,
-#         'f1_score': f1,
-#     }
-#     return metrics
+from sklearn.metrics import precision_recall_fscore_support, roc_auc_score
 
 
-def multi_label_evaluator(model, test_dataloader, threshold=0.5):
-    
+def simple_evaluator(model, dataloader, threshold=0.5, get_preds=False):
     model.eval()
+
     all_preds = []
     all_targets = []
-    all_masks = []
+    all_prob_preds = []
 
     with torch.no_grad():
-        for batch_features, batch_targets, batch_mask in test_dataloader:
-            batch_features = batch_features
-            batch_mask = batch_mask
+        for batch in dataloader:
 
-            predictions = model(batch_features, batch_mask)  
-            probabilities = torch.sigmoid(predictions)
-            binary_preds = (probabilities > threshold).float() 
+            inputs, batch_targets = batch[:-1], batch[-1]
+            outputs = model(*inputs)
 
-            all_preds.append(binary_preds)
-            all_targets.append(batch_targets)
-            all_masks.append(batch_mask)
-
-    
-    binary_preds = torch.cat(all_preds, dim=0)
-    targets = torch.cat(all_targets, dim=0)
-    masks = torch.cat(all_masks, dim=0)
-    binary_preds_flat = binary_preds.flatten()
-    targets_flat = targets.flatten()
-    mask_flat = masks.flatten()
-
-    valid_mask = mask_flat != 0
-    valid_predictions = binary_preds_flat[valid_mask]
-    valid_targets = targets_flat[valid_mask]
-    precision, recall, fscore, _ = precision_recall_fscore_support(
-        valid_targets.numpy(), valid_predictions.numpy(),average='binary'  
-    )
- 
-    metrics = {
-        'precision': precision,
-        'recall': recall,
-        'f1_score': fscore,
-    }
-    return metrics
-
-
-def single_label_evaluator(model, test_loader, device=None):
-
-    if device is None:
-        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-    model.eval()
-    all_predictions = []
-    all_probabilities = []
-    all_targets = []
-
-    with torch.no_grad():
-        for data, targets in test_loader:
-            data, targets = data.to(device), targets.to(device).float()
-            outputs = model(data)
-            probabilities = torch.sigmoid(outputs) if outputs.dim() > 0 else torch.sigmoid(outputs.unsqueeze(0))
-
-            # 获取预测结果（阈值0.5）
-            predictions = (probabilities > 0.5).float()
-
-            all_predictions.extend(predictions.cpu().numpy())
-            all_probabilities.extend(probabilities.cpu().numpy())
-            all_targets.extend(targets.cpu().numpy())
-
-    # 转换为numpy数组
-    all_predictions = np.array(all_predictions)
-    all_probabilities = np.array(all_probabilities)
-    all_targets = np.array(all_targets)
-
-    # 计算各种指标
-    precision = precision_score(all_targets, all_predictions, zero_division=0)
-    recall = recall_score(all_targets, all_predictions, zero_division=0)
-    f1 = f1_score(all_targets, all_predictions, zero_division=0)
-
-    # 计算混淆矩阵
-    cm = confusion_matrix(all_targets, all_predictions)
-
-    metrics = {
-        'precision': precision,
-        'recall': recall,
-        'f1_score': f1,
-    }
-    return metrics
-
-
-def socio_feature_evaluator(model, dataloader, threshold=0.5):
-    model.eval()
-    all_preds = []
-    all_targets = []
-
-    with torch.no_grad():
-        for batch_social, batch_features, batch_targets in dataloader:
-            outputs = model(batch_social,batch_features)
-            preds = torch.sigmoid(outputs).squeeze()
-            preds = (preds > threshold).int()
-
-            all_preds.extend(preds.cpu().numpy())
-            all_targets.extend(batch_targets.cpu().numpy())
+            prob_preds = torch.sigmoid(outputs).squeeze()
+            preds = (prob_preds > threshold).int()
+            
+            all_prob_preds.extend(prob_preds.numpy())
+            all_preds.extend(preds.numpy())
+            all_targets.extend(batch_targets.numpy())
 
     precision, recall, f1, _ = precision_recall_fscore_support(
         all_targets, all_preds, average='binary', zero_division=0
     )
+    
+    auc = roc_auc_score(all_targets, all_prob_preds)
+
+
     metrics = {
         'precision': precision,
         'recall': recall,
         'f1_score': f1,
+        'auc': auc
     }
+    
+    if get_preds == True:
+        return metrics, all_prob_preds
+    
     return metrics
+
+
+
+def multi_task_evaluator(model, dataloader, threshold=0.5, get_preds = False):
+
+
+    """
+    evaluator：evaluate labels from specific annotators (with annotator_id) select specific anntoator for each item
+    
+    Args:
+        model: multi-task model to be evaluated
+        test_dataloader: data loader for test data, including / Annotator Index in Multi-task Head/ text tensors/ & /test labels/
+    """
+
+    model.eval()
+
+    all_probs = []
+    all_preds = []
+    all_targets = []
+
+    with torch.no_grad():
+        for annotator_id, x, y in dataloader:
+
+            logits = model(x)                 
+            probs = torch.sigmoid(logits)
+            idx = annotator_id.unsqueeze(1)
+            prob = probs.gather(1, idx).squeeze(1)
+
+            pred = (prob > threshold).float()
+
+            all_probs.append(prob)
+            all_preds.append(pred)
+            all_targets.append(y)
+
+    y_true = torch.cat(all_targets).numpy()
+    y_pred = torch.cat(all_preds).numpy()
+    y_prob = torch.cat(all_probs).numpy()
+
+    precision, recall, f1, _ = precision_recall_fscore_support(y_true, y_pred, average='binary', zero_division=0)
+
+    auc = roc_auc_score(y_true,y_prob)
+    
+    metrics =  {
+        "precision": precision,
+        "recall": recall,
+        "f1": f1,
+        "auc": auc
+    }
+
+    if get_preds == True:
+        return metrics, y_pred
+    
+    return metrics
+
+
+
+
+    
+# def multi_task_evaluator(model, test_dataloader, threshold=0.5, get_preds=False):
+
+
+#     model.eval()
+#     all_preds = []
+#     all_targets = []
+#     all_annotator_ids = []
+#     all_prob_preds = []
+
+#     with torch.no_grad():
+#         for annotator_id, batch_features, batch_targets in test_dataloader:
+#             predictions = model(batch_features)  
+#             probabilities = torch.sigmoid(predictions)
+#             binary_preds = (probabilities > threshold).float()
+            
+#             all_preds.append(binary_preds)
+#             all_targets.append(batch_targets)
+#             all_annotator_ids.append(annotator_id)
+#             all_prob_preds.append(probabilities)
+
+#     binary_preds = torch.cat(all_preds, dim=0)  # [num_samples, num_annotators]
+#     all_targets = torch.cat(all_targets, dim=0)     # [num_samples, num_annotators]
+#     annotator_ids = torch.cat(all_annotator_ids, dim=0)  # [num_samples]
+#     all_prob_preds = torch.cat(all_prob_preds, dim=0)  # [num_samples, num_annotators]
+  
+
+#     valid_predictions = []
+#     valid_probability = []
+
+#     for i in range(len(annotator_ids)):
+#         annotator_id = annotator_ids[i].item()  
+        
+#         if annotator_id < binary_preds.shape[1]:
+            
+#             valid_predictions.append(binary_preds[i, annotator_id])
+#             valid_probability.append(all_prob_preds[i, annotator_id])
+#         else:
+#             print(f"Warning: Item {i}, annotator_id {annotator_id} out of range of predictions (max: {binary_preds.shape[1]-1})")
+
+#     valid_predictions = torch.stack(valid_predictions)
+#     valid_probability = torch.stack(valid_probability)
+
+#     precision, recall, fscore, _ = precision_recall_fscore_support(
+#         all_targets,
+#         valid_predictions.cpu().numpy(), 
+#         average='binary',
+#         zero_division=0
+#     )
+
+#     auc = roc_auc_score(all_targets, valid_probability.cpu().numpy())
+
+#     metrics = {
+#         'precision': precision,
+#         'recall': recall,
+#         'f1_score': fscore,
+#         'auc': auc
+#     }
+
+#     if get_preds:
+#         return metrics, valid_probability
+#     return metrics
