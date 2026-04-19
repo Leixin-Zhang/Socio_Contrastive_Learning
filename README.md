@@ -7,7 +7,7 @@
 </div>
 
 
-## Code for the Project:
+## Code Structure for the Project:
 ```
 Socio_Contrastive_Learning
 │
@@ -27,7 +27,7 @@ Socio_Contrastive_Learning
 │   ├── trainer_classes.py
 │   └── train_models.py
 │
-├── evaluation/
+├── evaluation/  
 │   └── evaluators.py
 │   
 └── run_all_models.py
