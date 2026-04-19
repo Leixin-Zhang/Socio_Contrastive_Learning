@@ -8,7 +8,7 @@
 
 
 ## Code for the Project:
-···
+```
 Socio_Contrastive_Learning
 │
 ├── data_processing/
@@ -18,11 +18,22 @@ Socio_Contrastive_Learning
 │   └── text_encoder.py
 │
 ├── models/
-│   ├── model.py
-│   └── utils.py
+│   ├── baseline_model.py
+│   ├── socio_feature_model.py
+│   └── contrastive_model.py
 │
-└── main.py
-···
+├── training/
+│   ├── self_defined_loss.py
+│   ├── trainer_classes.py
+│   └── train_models.py
+│
+├── evaluation/
+│   └── evaluators.py
+│   
+└── run_all_models.py
+```
+
+
 ## 🚀 Introduction: 
 
 **Background:** Humans often hold different perspectives on the same issues. Modeling annotator perspectives and understanding their relationship with other human factors have received increasing attention. In real-world settings, annotator perspectives are shaped by complex social contexts. However, prior work typically focuses on individual demographic factors or limited combinations. 
