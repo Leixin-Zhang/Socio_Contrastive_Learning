@@ -60,8 +60,6 @@ class HateSpeechFeatureBuilder:
 
         if encoder == "SBERT":
             self.encoder = SentenceTransformer("all-MiniLM-L6-v2")
-        elif encoder == "BERT_CLS":
-            self.encoder = BERT_CLS()
         elif encoder == "BERT_MeanPooling":
             self.encoder = BERT_MeanPooling()
         elif encoder == 'RoBERTa_MeanPooling':
