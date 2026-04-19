@@ -41,7 +41,16 @@ Socio_Contrastive_Learning
 └── run_all_models.py
 ```
 
-Note: the Toxic Dataset can be found here: https://data.esrg.stanford.edu/study/toxicity-perspectives
+## 📦 Datasets
+
+- **Hate Speech Dataset**: Available on Hugging Face  
+  👉 `ucberkeley-dlab/measuring-hate-speech`  
+  🔗 https://huggingface.co/datasets/ucberkeley-dlab/measuring-hate-speech  
+
+- **Toxicity Dataset**: Available from Stanford ESRG  
+  🔗 https://data.esrg.stanford.edu/study/toxicity-perspectives  
+
+> ⚠️ Note: Please ensure that you comply with the dataset licensing agreements and check access before using the data for model training.
 
 ## 💡 Visualization: 
 
