@@ -6,11 +6,8 @@ from sentence_transformers import SentenceTransformer
 from data_processing.text_encoder import BERT_CLS, BERT_MeanPooling, RoBERTa_MeanPooling
 
 
-
-
 class HateSpeechDatasetLoader:
-
-
+    
     def load_and_preprocess_data(self):
         
         df = datasets.load_dataset('ucberkeley-dlab/measuring-hate-speech')['train'].to_pandas()
@@ -26,8 +23,7 @@ class HateSpeechDatasetLoader:
 
         # create 0 / 1 as binary labels (non-hate = 0, hate = 1 )
         df['binary_hatespeech'] = df['hatespeech'].replace(2, 1)
-
-
+        
         return df
 
 
@@ -138,9 +134,6 @@ class HateSpeechFeatureBuilder:
 
         return text_tensor, target_tensor
 
-
-
-
     # -------------------------------------
     # SOCIO-DEMOGRAPHIC ONE-HOT EMBEDDING
     # -------------------------------------
@@ -154,8 +147,6 @@ class HateSpeechFeatureBuilder:
 
         return torch.tensor(one_hot_df.to_numpy(), dtype=torch.float32)
     
-        
-
     # -----------------------------------------
     # SOCIO-DEMOGRAPHIC EMBEDDING FROM ENCODERS
     # -----------------------------------------
@@ -172,59 +163,7 @@ class HateSpeechFeatureBuilder:
         ])
 
         return annotator_embeddings
-
-
-    # def annotator_embedding_dict(self, df):
-
-    #     # annotator-level dataframe（remove duplicated annotator entry）
-    #     annotator_df = df.drop_duplicates("annotator_id").copy()
-
-    #     gender = (
-    #         "gender: " + annotator_df["annotator_gender"].astype(str) +
-    #         annotator_df["annotator_transgender"].map({1: ", transgender", 0: ""})
-    #     )
-
-    #     age = annotator_df["annotator_age"].apply(
-    #         lambda x: f"{int(x)} years old" if pd.notna(x) else "age: None"
-    #     )
-
-    #     education = "education: " + annotator_df["annotator_educ"].astype(str).str.replace("_", " ")
-    #     income = "income: " + annotator_df["annotator_income"].fillna("NONE").astype(str)
-    #     ideology = "ideology: " + annotator_df["annotator_ideology"].astype(str)
-
-    #     # 2️. religion / race / sexuality
-    #     def decode_multi_hot(prefix, name):
-    #         cols = [c for c in df.columns if c.startswith(prefix)]
-    #         values = annotator_df[cols].values
-
-    #         out = []
-    #         for row in values:
-    #             selected = [cols[i].replace(prefix, "") for i, v in enumerate(row) if v == 1]
-    #             out.append(f"{name}: " + ", ".join(selected) if selected else f"{name}: none")
-    #         return out
         
-        
-    #     religion = decode_multi_hot("annotator_religion_", "religion")
-    #     race = decode_multi_hot("annotator_race_", "race")
-    #     sexuality = decode_multi_hot("annotator_sexuality_", "sexuality")
-
-    #     # concatenate all socio-demographic features（one piece of text per annotator）
-    #     texts = (
-    #         gender + ", " +
-    #         age + ", " +
-    #         education + ", " +
-    #         income + ", " +
-    #         ideology + ", " +
-    #         pd.Series(religion) + ", " +
-    #         pd.Series(race) + ", " +
-    #         pd.Series(sexuality)
-    #     ).tolist()
-
-    #     # encode socio-demographic texts to embedding formats
-    #     embeddings = self.encoder.encode(texts)
-
-
-    #     return dict(zip(annotator_df.annotator_id.values, embeddings))
     
     def annotator_embedding_dict(self, df):
 
