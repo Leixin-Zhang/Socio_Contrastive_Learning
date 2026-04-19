@@ -20,8 +20,9 @@ Authors:
 
 **Advantages:** An effective approach for the fusion of socio-demographic features and textual representations to predict annotator perspectives. The learned representations further enable analysis and visualization of how demographic factors relate to variation in annotator perspectives.
 
-
-![](images/Annotator_Representation_Hatespeech_1_page-0001.jpg)
+**Annotator Representation for the Hate Speech Dataset**
+![Annotator Representation for Hate Speech Dataset](images/Annotator_Representation_Hatespeech_1_page-0001.jpg)
 ![Annotator Representation for Hate Speech Dataset](images/Annotator_Representation_Hatespeech_2_page-0001.jpg)
-![图片描述](images/Annotator_Representation_Toxic_1_page-0001.jpg)
+**Annotator Representation for the Toxic Dataset**
+![Annotator Representation for Toxic Dataset](images/Annotator_Representation_Toxic_1_page-0001.jpg)
 ![Annotator Representation for Toxic Dataset](images/Annotator_Representation_Toxic_2_page-0001.jpg)
