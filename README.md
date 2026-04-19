@@ -2,7 +2,7 @@
 ## Modeling Human Perspectives with Socio-Demographic Representations
 
 <div align="center",style="font-family: charter;">
-  Authors:  <a href="https://scholar.google.com/citations?user=dTRy2gUAAAAJ&hl=en" target="_blank">Leixin Zhang</a>, 
+  **Authors**:  <a href="https://scholar.google.com/citations?user=dTRy2gUAAAAJ&hl=en" target="_blank">Leixin Zhang</a>, 
     <a href="https://coltekin.net/cagri/" target="_blank">Çağrı Çöltekin</a>
 </div>
 
