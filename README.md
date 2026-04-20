@@ -50,7 +50,7 @@ Socio_Contrastive_Learning
 
 ## 👇 Model Architecture 
 
-<img src="images/socio-contrastive_page-0001.jpg" width="30%" />
+<img src="images/socio-contrastive_page-0001.jpg" width="40%" />
 
 
 ## 📦 Datasets
@@ -67,8 +67,9 @@ Socio_Contrastive_Learning
 ## 💡 Visualization: 
 
 **Annotator Representation for the Hate Speech Dataset**
-![Annotator Representation for Hate Speech Dataset](images/Annotator_Representation_Hatespeech_1_page-0001.jpg)
-![Annotator Representation for Hate Speech Dataset](images/Annotator_Representation_Hatespeech_2_page-0001.jpg)
+<img src="Annotator_Representation_Hatespeech_1_page-0001.jpg" width="80%" />
+<img src="Annotator_Representation_Hatespeech_2_page-0001.jpg" width="80%" />
+
 **Annotator Representation for the Toxic Dataset**
-![Annotator Representation for Toxic Dataset](images/Annotator_Representation_Toxic_1_page-0001.jpg)
-![Annotator Representation for Toxic Dataset](images/Annotator_Representation_Toxic_2_page-0001.jpg)
+<img src="Annotator_Representation_Toxic_1_page-0001.jpg" width="80%" />
+<img src="Annotator_Representation_Toxic_2_page-0001.jpg" width="80%" />
