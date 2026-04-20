@@ -7,13 +7,16 @@
 </div>
 
 
-#### 🔥 **Paper Accepted at ACL 2026 Findings** 
 
 **Contribution:** 🏆 Socio-Contrastive Learning 🏆: a method that jointly models annotator perspectives while learning socio-demographic representations from a set of socio-demographic features. 
 
 **Advantages:** 
 1. An effective approach for the fusion of socio-demographic features and textual representations to predict annotator perspectives. 
 2. The learned representations further enable analysis and visualization of how demographic factors relate to variation in annotator perspectives.
+
+3. 
+####🔥 **Paper Accepted at ACL 2026 Findings** 
+
 
 ## Code Structure for the Project:
 ```
