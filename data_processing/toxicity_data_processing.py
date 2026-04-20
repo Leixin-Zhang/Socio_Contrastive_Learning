@@ -171,34 +171,6 @@ class ToxicFeatureBuilder:
         return torch.tensor(one_hot_df.to_numpy(), dtype=torch.float32)
 
 
-   
-
-        # # combine
-        # df = pd.concat([df, race_dummies], axis=1)
-
-        # # keep only numeric features (clean + avoids fragile column slicing)
-        # df = df.select_dtypes(include='number').astype(int)
-
-        # return torch.tensor(df.to_numpy(), dtype=torch.float32)
-
-
-    # -----------------------------------------
-    # SOCIO-DEMOGRAPHIC EMBEDDING FROM ENCODERS
-    # -----------------------------------------
-
-    # def build_socio_embedding_tensor(self, df):
-
-    #     # 1 Get annotator embedding dict
-    #     annotator_embedding_dict = self.annotator_embedding_dict(df)
-
-    #     # 2️ Align annotator embedding to df order
-    #     annotator_embeddings = np.stack([
-    #         annotator_embedding_dict[aid] for aid in df.annotator_id.values
-    #     ])
-
-    #     # 3 Covert to tensor 
-    #     return torch.tensor(annotator_embeddings, dtype=torch.float32)
-
 
     def build_socio_embedding_tensor(self, df):
 
