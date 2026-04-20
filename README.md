@@ -8,16 +8,16 @@
 
 
 
-**Contribution:** 🏆 Socio-Contrastive Learning 🏆: a method that jointly models annotator perspectives while learning socio-demographic representations from a set of socio-demographic features. 
+**🏆 Contribution:** **Socio-Contrastive Learning**: a method that jointly models annotator perspectives while learning socio-demographic representations from a set of socio-demographic features. 
 
-**Advantages:** 
+**🏆 Advantages:** 
 1. An effective approach for the fusion of socio-demographic features and textual representations to predict annotator perspectives. 
 2. The learned representations further enable analysis and visualization of how demographic factors relate to variation in annotator perspectives.
  
 #### 🔥 **Paper Accepted at ACL 2026 Findings** 
 
 
-## Code Structure for the Project:
+## 🧱 Code Structure for the Project:
 ```
 Socio_Contrastive_Learning
 │
@@ -52,7 +52,7 @@ Socio_Contrastive_Learning
 - **Toxicity Dataset**: Available from Stanford ESRG  
   🔗 https://data.esrg.stanford.edu/study/toxicity-perspectives  
 
-> ⚠️ Note: Please ensure that you comply with the dataset licensing agreements and check access before using the data for model training.
+> ⚠️ Note: Please ensure that you obtain the access of toxic dataset before using it for model training.
 
 ## 💡 Visualization: 
 
