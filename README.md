@@ -7,8 +7,7 @@
 </div>
 
 
-## 🚀 Introduction: 
-
+#### 🔥 **Socio-Contrastive Learning Accepted at ACL 2026 Findings** 
 
 **Contribution:** 🏆 Socio-Contrastive Learning 🏆: a method that jointly models annotator perspectives while learning socio-demographic representations from a set of socio-demographic features. 
 
