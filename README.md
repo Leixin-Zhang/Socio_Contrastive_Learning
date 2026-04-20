@@ -8,7 +8,7 @@
 
 
 
-**🏆 Contribution:** **Socio-Contrastive Learning**: a method that jointly models annotator perspectives while learning socio-demographic representations from a set of socio-demographic features. 
+**🏆 Contribution:** We propose **Socio-Contrastive Learning**: a method that jointly models annotator perspectives while learning socio-demographic representations from a set of socio-demographic features. 
 
 **🏆 Advantages:** 
 1. An effective approach for the fusion of socio-demographic features and textual representations to predict annotator perspectives. 
