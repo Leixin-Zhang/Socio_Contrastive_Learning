@@ -46,8 +46,12 @@ Socio_Contrastive_Learning
 │   
 └── run_all_models.py
 ```
+
+
 ## 👇 Model Architecture 
-![Model_Architecture](images/socio-contrastive_page-0001.jpg)
+
+<img src="images/socio-contrastive_page-0001.jpg" width="30%" />
+
 
 ## 📦 Datasets
 
