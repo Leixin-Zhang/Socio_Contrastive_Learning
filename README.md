@@ -21,7 +21,7 @@
  
 
 
-## 🧱 Code Structure for the Project:
+## 🧱 Code Structure
 ```
 Socio_Contrastive_Learning
 │
