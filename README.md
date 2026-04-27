@@ -48,6 +48,11 @@ Socio_Contrastive_Learning
 ```
 
 ## 🌱 Model Architecture
+
+- Model input consists of **two components**: a **multi-hot encoding** of the annotator’s socio-demographic attributes and a **text representation** encoded by a pretrained model.
+- **Socio-Contrastive Learning**: Before concatenation, the multi-hot socio-demographic vector is projected into a learnable space. To amplify the most informative socio-demographic attributes, we apply contrastive learning to refine socio-demographic representations based on annotation similarity, encouraging representations to be closer for annotators with similar annotation patterns and farther apart otherwise.
+- **Perspective Modeling**: The primary task of the model is to predict each annotator’s label, using a cross-entropy loss. 
+
 <img src="images/socio_contrastive.png" width="50%" />
 
 ## 📦 Datasets
