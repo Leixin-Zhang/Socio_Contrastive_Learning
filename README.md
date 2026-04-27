@@ -17,7 +17,8 @@
 - Prior work typically focuses on single demographic factors or limited combinations.
 - However, in real-world settings, **annotator perspectives are shaped by complex social contexts**, and finer-grained socio-demographic attributes can better explain human perspectives.
 
-**🏆 Our Contribution:** We propose **Socio-Contrastive Learning**: a method that jointly models annotator perspectives while learning socio-demographic representations from a set of socio-demographic features. 
+**🏆 Our Contribution:** 
+We propose **Socio-Contrastive Learning**: a method that jointly models annotator perspectives while learning socio-demographic representations from a set of socio-demographic features. 
 
 **🏆 Advantages:** 
 1. An effective approach for the fusion of socio-demographic features and textual representations to predict annotator perspectives. 
