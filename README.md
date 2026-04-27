@@ -12,7 +12,10 @@
 ####
 #### 🔥 **Paper Accepted at ACL 2026 Findings** 
 
-**Background:** Modeling annotator perspectives and understanding their relationship with other human factors, such as socio-demographic attributes, have received increasing attention. Prior work typically focuses on single demographic factors or limited combinations. However, in real-world settings, **annotator perspectives are shaped by complex social contexts**, and finer-grained socio-demographic attributes can better explain human perspectives.
+**Background:** 
+- Modeling annotator perspectives and understanding their relationship with other human factors, such as socio-demographic attributes, have received increasing attention.
+- Prior work typically focuses on single demographic factors or limited combinations.
+- However, in real-world settings, **annotator perspectives are shaped by complex social contexts**, and finer-grained socio-demographic attributes can better explain human perspectives.
 
 **🏆 Our Contribution:** We propose **Socio-Contrastive Learning**: a method that jointly models annotator perspectives while learning socio-demographic representations from a set of socio-demographic features. 
 
