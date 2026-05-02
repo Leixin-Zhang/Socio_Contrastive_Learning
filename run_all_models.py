@@ -18,7 +18,7 @@ class RunAllModels:
         result = {}
         metrics = {}
 
-        ===== Model 1: Simple Model =====
+        # ===== Model 1: Simple Model =====
         m, h, r = self.models.train_simple_model()
         metrics['single_model'] = m
         history['single_model'] = h
@@ -30,7 +30,7 @@ class RunAllModels:
         history['multi_task_model'] = h
         result['multi_task_model'] = r
 
-        ===== Model 3: One-Hot Model =====
+        # ===== Model 3: One-Hot Model =====
         m, h, r = self.models.train_one_hot_model()
         metrics['one_hot_model'] = m
         history['one_hot_model'] = h
