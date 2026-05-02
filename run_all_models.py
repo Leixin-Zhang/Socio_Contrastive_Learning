@@ -42,7 +42,7 @@ class RunAllModels:
         history['social_embedding_model'] = h
         result['social_embedding_model'] = r
 
-        # ===== Model 6: Contrastive Model =====
+        # ===== Model 5: Contrastive Model =====
         m, h, r = self.models.train_contrastive_model(contrastive_loss_w=1)
         metrics['contrastive_model'] = m
         history['contrastive_model'] = h
